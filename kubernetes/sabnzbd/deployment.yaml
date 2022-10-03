@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sabnzbd
+  name: sabnzbd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sabnzbd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: sabnzbd
+    spec:
+      containers:
+        - env:
+            - name: PUID
+              value: "502"
+            - name: PGID
+              value: "20"
+          image: lscr.io/linuxserver/sabnzbd:latest
+          name: sabnzbdserver
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: sabnzbd-config
+            - mountPath: /downloads
+              name: sabnzbd-downloads
+      restartPolicy: Always
+      volumes:
+        - name: sabnzbd-config
+          hostPath:
+            path: /MEDIA/SABNZBD_CONFIG
+        - name: sabnzbd-downloads
+          hostPath:
+            path: /MEDIA/data/nzbd
+        
+status: {}

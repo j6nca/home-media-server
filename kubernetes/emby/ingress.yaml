@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: emby-ingress
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-production"
+spec:
+  tls:
+    - hosts:
+      - media.jng.sh
+      secretName: media-server-tls
+  rules:
+  - host: media.jng.sh
+    http:
+      paths:
+      - path: /deluge
+        pathType: Prefix
+        backend:
+          service:
+            name: deluge
+            port:
+              number: 8112
+      - path: /emby
+        pathType: Prefix
+        backend:
+          service:
+            name: emby
+            port:
+              number: 8096
+      - path: /ombi
+        pathType: Prefix
+        backend:
+          service:
+            name: ombi
+            port:
+              number: 3579
+      - path: /prowlarr
+        pathType: Prefix
+        backend:
+          service:
+            name: prowlarr
+            port:
+              number: 9696
+      - path: /sonarr
+        pathType: Prefix
+        backend:
+          service:
+            name: sonarr
+            port:
+              number: 8989
+      - path: /sabnzbd
+        pathType: Prefix
+        backend:
+          service:
+            name: sabnzbd
+            port:
+              number: 8080
+      - path: /nzbget
+        pathType: Prefix
+        backend:
+          service:
+            name: nzbget
+            port:
+              number: 6789
+  ingressClassName: nginx

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: deluge
+  name: deluge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: deluge
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: deluge
+    spec:
+      containers:
+        - env:
+            - name: PUID
+              value: "502"
+            - name: PGID
+              value: "20"
+            - name: DELUGE_LOGLEVEL
+              value: "error" #optional
+          image: lscr.io/linuxserver/deluge:latest
+          name: delugeserver
+          ports:
+            - containerPort: 8112
+            - containerPort: 6881
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: deluge-config
+            - mountPath: /downloads
+              name: deluge-downloads
+      restartPolicy: Always
+      volumes:
+        - name: deluge-config
+          hostPath:
+            path: /MEDIA/DELUGE_CONFIG
+        - name: deluge-downloads
+          hostPath:
+            path: /MEDIA/DELUGE_DOWNLOADS
+status: {}

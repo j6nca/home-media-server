@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sonarr
+  name: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sonarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: sonarr
+    spec:
+      containers:
+        - env:
+            - name: PUID
+              value: "502"
+            - name: PGID
+              value: "20"
+          image: lscr.io/linuxserver/sonarr:latest
+          name: sonarrserver
+          ports:
+            - containerPort: 8989
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: sonarr-config
+            - mountPath: /downloads
+              name: sonarr-downloads
+            - mountPath: /tv
+              name: sonarr-tv
+      restartPolicy: Always
+      volumes:
+        - name: sonarr-config
+          hostPath:
+            path: /MEDIA/SONARR_CONFIG
+        - name: sonarr-downloads
+          hostPath:
+            path: /MEDIA/data/nzbd
+        - name: sonarr-tv
+          hostPath:
+            path: /MEDIA/data/media/tv
+        
+status: {}

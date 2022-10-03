@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: deluge
+  name: deluge
+spec:
+  ports:
+    - name: "8112"
+      port: 8112
+      targetPort: 8112
+    - name: "6881"
+      port: 6881
+      targetPort: 6881
+      protocol: UDP
+  selector:
+    io.kompose.service: deluge
+status:
+  loadBalancer: {}

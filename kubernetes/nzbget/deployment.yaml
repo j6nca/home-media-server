@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nzbget
+  name: nzbget
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nzbget
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nzbget
+    spec:
+      containers:
+        - env:
+            - name: PUID
+              value: "502"
+            - name: PGID
+              value: "20"
+          image: lscr.io/linuxserver/nzbget:latest
+          name: nzbgetserver
+          ports:
+            - containerPort: 6789
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: nzbget-config
+            - mountPath: /downloads
+              name: nzbget-downloads
+      restartPolicy: Always
+      volumes:
+        - name: nzbget-config
+          hostPath:
+            path: /MEDIA/NZBGET_CONFIG
+        - name: nzbget-downloads
+          hostPath:
+            path: /MEDIA/data/nzbd
+        
+status: {}

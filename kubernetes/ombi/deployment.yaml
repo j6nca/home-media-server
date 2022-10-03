@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ombi
+  name: ombi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ombi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ombi
+    spec:
+      containers:
+        - env:
+            - name: PUID
+              value: "502"
+            - name: PGID
+              value: "20"
+          image: linuxserver/ombi:latest
+          name: ombiserver
+          ports:
+            - containerPort: 3579
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: ombi-config
+      restartPolicy: Always
+      volumes:
+        - name: ombi-config
+          hostPath:
+            path: /MEDIA/OMBI_CONFIG
+status: {}
