@@ -20,9 +20,7 @@ groups
 # Jellyfin
 ```
 # start
-docker compose -f jellyfin.dockerFile up -d
+docker compose up -d
 # stop
-docker compose -f jellyfin.dockerFile down
+docker compose down
 ```
-
-
