@@ -1,0 +1,11 @@
+---
+version: "3.9"
+services:
+  gatus:
+    image: twinproduction/gatus:stable
+    container_name: gatus
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./gatus_config:/config
+      - ./gatus_data:/data/

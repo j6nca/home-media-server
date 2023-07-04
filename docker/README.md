@@ -24,3 +24,7 @@ docker compose up -d
 # stop
 docker compose down
 ```
+
+# Resources
+https://www.youtube.com/watch?v=yMmxw-DZ5Ec
+https://medium.com/@fabrice_/setting-up-a-media-server-jellyfin-and-making-it-securely-accessible-from-anywhere-in-the-world-ca3b4d9dd19e
