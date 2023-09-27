@@ -17,7 +17,10 @@ su - ${USER}
 groups
 ```
 
-# Jellyfin
+# Cloudflare Tunnel Setup
+Get tunnel token from cloudflare and paste in `.env`, this will be consumed by docker-compose.yml
+
+# Docker Compose
 ```
 # start
 docker compose up -d
